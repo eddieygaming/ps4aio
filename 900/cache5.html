@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" manifest="PSPulse5.manifest">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlayStation PSFree Host 9.xx - Auto Cache (GoldHEN v2.4b18.5)</title>
+    <link rel="icon" type="image/png" href="../pstation.png">    
+    <script>history.replaceState(null, null, 'index5.html');</script>
+    <style>
+        :root { --bg:#050706; --panel:#080c0a; --line:#34443a; --line-bright:#607b68; --text:#f1f6f2; --muted:#b4c1b8; --dim:#86958b; --green:#73f5a6; }
+        * { box-sizing:border-box; margin:0; padding:0; }
+        html { background:var(--bg); }
+        html, body { min-height:100%; }
+        body { background-color:var(--bg); background-image:linear-gradient(rgba(115,245,166,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(115,245,166,.03) 1px,transparent 1px); background-size:32px 32px; color:var(--text); display:flex; flex-direction:column; font:16px/1.5 "SFMono-Regular",Consolas,"Liberation Mono",monospace; min-height:100vh; overflow-x:hidden; }
+        .container { display:flex; flex:1 0 auto; flex-direction:column; justify-content:center; margin:0 auto; padding:24px 0; width:min(100% - 64px,920px); }
+        .logo-section { background:rgba(8,12,10,.92); border:1px solid var(--line); margin:0 auto 16px; padding:24px 28px 26px; position:relative; width:100%; }
+        .logo-section::before { color:var(--green); content:"●  PS4 / PSFREE HOST"; display:block; font-size:13px; letter-spacing:.12em; margin-bottom:18px; }
+        .logo-section::after { color:var(--dim); content:"SYS / CACHE UPDATE"; font-size:12px; letter-spacing:.08em; position:absolute; right:28px; top:25px; }
+        .main-title { color:var(--text); font-size:clamp(32px,5vw,52px); font-weight:400; letter-spacing:-.07em; line-height:1.05; }
+        .main-title::before { color:var(--green); content:"> "; }
+        .subtitle { color:var(--green); font-size:17px; letter-spacing:.08em; margin-top:14px; }
+        .progress-container { margin:0 auto; width:100%; }
+        .progress-label { color:var(--green); font-size:15px; margin-bottom:10px; }
+        .progress-wrapper { background:var(--panel); border:1px solid var(--line-bright); padding:6px; }
+        .progress-bar { background:#0d120f; border:1px solid var(--line); height:62px; overflow:hidden; position:relative; }
+        .progress-fill { background:var(--green); height:100%; transition:width .3s ease; width:0; }
+        .progress-text { color:var(--text); font-size:20px; font-weight:400; left:50%; position:absolute; text-shadow:0 1px 8px rgba(0,0,0,.8); top:50%; transform:translate(-50%,-50%); z-index:3; }
+        .status-message { color:var(--muted); font-size:15px; margin-top:12px; text-align:left; }
+        .credits { border-top:1px solid var(--line); color:var(--muted); flex:0 0 auto; font-size:13px; margin:0 auto; padding:8px 20px 10px; text-align:center; width:min(100% - 64px,920px); }
+        .credits-line { display:inline; }
+        .credits-line + .credits-line::before { color:var(--line-bright); content:"  //  "; }
+        .credit-label { color:var(--muted); }
+        .credits a { color:var(--text); }
+        .credits a:hover,.credits a:focus { color:var(--green); }
+        @media (max-width:700px) {
+            body { overflow:auto; }
+            .container { justify-content:flex-start; padding:28px 0 22px; width:min(100% - 32px,560px); }
+            .logo-section { padding:22px 18px 24px; }
+            .logo-section::after { display:none; }
+            .main-title { font-size:clamp(32px,10vw,48px); }
+            .progress-bar { height:56px; }
+            .credits-line { display:block; margin:4px 0; }
+            .credits-line + .credits-line::before { content:""; }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <header class="logo-section">
+            <h1 class="main-title">Play Station 4 PSFree Host</h1>
+            <p class="subtitle">Loading Offline Cache</p>
+        </header>
+        <section class="progress-container">
+            <div class="progress-label" id="progress">Loading.. Please Wait !!!</div>
+            <div class="progress-wrapper">
+                <div class="progress-bar" id="myProgress">
+                    <div class="progress-fill" id="myBar"></div>
+                    <div class="progress-text" id="progressText">0%</div>
+                </div>
+            </div>
+            <div class="status-message">Initializing cache system...</div>
+        </section>
+    </main>
+   
+      <div class="credits">
+        <div class="credits-line">
+            <span class="credit-label">Github Repository -</span>
+            <a href="https://github.com/itskenethb?tab=repositories" class="nodeplay-link">itskenethb</a>
+        </div>
+    </div>
+
+    <script>
+        if (window.applicationCache.status == 2) { localStorage.is755BCached = true; }
+        window.applicationCache.ondownloading = function () {
+            document.getElementById("progress").innerHTML = "Page Caching Started!!";
+            localStorage.is755BCached = false;
+        };
+        window.applicationCache.onprogress = function (a) {
+            const progress = Math.round(100 * (a.loaded / a.total));
+            document.getElementById("myBar").style.width = progress + "%";
+            document.getElementById("progressText").innerHTML = progress + "%";
+        };
+        window.applicationCache.oncached = function () {
+            document.getElementById("myBar").style.width = "100%";
+            document.getElementById("progressText").innerHTML = "100%";
+            document.getElementById("progress").innerHTML = "Page Cached Successfully!!!";
+            localStorage.is755BCached = true;
+            setTimeout(function () { window.location.reload("myBar"); }, 1500);
+        };
+        window.applicationCache.onupdateready = function () {
+            document.getElementById("myBar").style.width = "100%";
+            document.getElementById("progressText").innerHTML = "100%";
+            document.getElementById("progress").innerHTML = "Update Cache Successfully!!!";
+            localStorage.is755BCached = true;
+            setTimeout(function () { window.location.reload("myBar"); }, 1500);
+        };
+        window.applicationCache.onnoupdate = function () { window.location.replace("index5.html"); };
+        window.applicationCache.onerror = function () { window.location.replace("index5.html"); };
+        var width = 0;
+        function frame1() {
+            var elem = document.getElementById("myBar");
+            var text = document.getElementById("progressText");
+            var i = 0;
+            var id = setInterval(fra, 10);
+            function fra() {
+                if (i < 10 && width < 100) {
+                    width++;
+                    elem.style.width = width + "%";
+                    text.innerHTML = width + "%";
+                }
+                i++;
+            }
+        }
+    </script>
+    <script>
+(function () {
+    
+    var FIRMWARE_MODE = 'range';
+    var MIN_FIRMWARE = 9.00;
+    var MAX_FIRMWARE = 9.60;
+    
+    // var FIRMWARE_MODE = 'exact';
+    // var REQUIRED_FIRMWARE = 6.72;
+
+    // var FIRMWARE_MODE = 'list';
+    // var ALLOWED_FIRMWARES = [9.00,9.03,9.04,9.50];
+
+    function getRootSelector() {
+        return '/webkit/';
+    }
+
+    function getPS4Firmware() {
+        var ua = navigator.userAgent;
+        if (/PlayStation 5/i.test(ua)) {
+            return null;
+        }
+        if (!/PlayStation 4/i.test(ua)) {
+            return null;
+        }
+        var match = ua.match(
+            /PlayStation\s+4[\/ ](\d+)\.(\d+)/
+        );
+        if (!match) {
+            return null;
+        }
+        return parseFloat(match[1] + "." + match[2]);
+    }
+
+    function isPS4() {
+        var ua = navigator.userAgent;
+        if (/PlayStation 5/i.test(ua)) {
+            return false;
+        }
+        return /PlayStation 4/i.test(ua);
+    }
+
+    function isFirmwareSupported(firmware) {
+        if (firmware === null) {
+            return false;
+        }
+
+        if (FIRMWARE_MODE === 'exact') {
+            return firmware === REQUIRED_FIRMWARE;
+        }
+
+        if (FIRMWARE_MODE === 'range') {
+            return (
+                firmware >= MIN_FIRMWARE &&
+                firmware <= MAX_FIRMWARE
+            );
+        }
+
+        if (FIRMWARE_MODE === 'list') {
+            return ALLOWED_FIRMWARES.indexOf(firmware) !== -1;
+        }
+        return false;
+    }
+
+    function getSupportedFirmwareText() {
+        if (FIRMWARE_MODE === 'exact') {
+            return REQUIRED_FIRMWARE.toFixed(2);
+        }
+
+        if (FIRMWARE_MODE === 'range') {
+            return (
+                MIN_FIRMWARE.toFixed(2) +
+                ' - ' +
+                MAX_FIRMWARE.toFixed(2)
+            );
+        }
+
+        if (FIRMWARE_MODE === 'list') {
+            return ALLOWED_FIRMWARES
+                .map(function (fw) {
+                    return fw.toFixed(2);
+                })
+                .join(', ');
+        }
+        return 'UNKNOWN';
+    }
+
+    function showUnsupportedDevice() {
+        document.documentElement.classList.add(
+            'security-error'
+        );
+        var screen = document.createElement('div');
+        screen.id = 'securityScreen';
+        screen.innerHTML =
+            '<div class="security-message">' +
+                '<div class="security-title">' +
+                    'UNSUPPORTED DEVICE' +
+                '</div>' +
+                '<div class="security-info">' +
+                    'This page is only supported on PlayStation 4.' +
+                '</div>' +
+                '<div class="security-countdown">' +
+                    'Redirecting to firmware selection in ' +
+                    '<span id="securityCountdown">3</span>...' +
+                '</div>' +
+            '</div>';
+        document.body.appendChild(screen);
+        startCountdown();
+    }
+
+    function showUnsupportedFirmware(firmware) {
+        document.documentElement.classList.add(
+            'security-error'
+        );
+        var screen = document.createElement('div');
+        screen.id = 'securityScreen';
+        screen.innerHTML =
+            '<div class="security-message">' +
+                '<div class="security-title">' +
+                    'FIRMWARE NOT SUPPORTED' +
+                '</div>' +
+                '<div class="security-info">' +
+                    'Detected firmware: ' +
+                    (
+                        firmware !== null
+                            ? firmware.toFixed(2)
+                            : 'UNKNOWN'
+                    ) +
+                '</div>' +
+                '<div class="security-info">' +
+                    'Supported firmware: ' +
+                    getSupportedFirmwareText() +
+                '</div>' +
+                '<div class="security-countdown">' +
+                    'Redirecting to firmware selection in ' +
+                    '<span id="securityCountdown">3</span>...' +
+                '</div>' +
+            '</div>';
+        document.body.appendChild(screen);
+        startCountdown();
+    }
+
+    function startCountdown() {
+        var countdown = 3;
+        var countdownElement =
+            document.getElementById('securityCountdown');
+        var timer = setInterval(function () {
+            countdown--;
+            if (countdown <= 0) {
+                clearInterval(timer);
+                window.location.href =
+                    getRootSelector();
+                return;
+            }
+            countdownElement.textContent =
+                countdown;
+        }, 1000);
+    }
+
+    var style = document.createElement('style');
+    style.textContent = `
+        html.security-error,
+        html.security-error body {
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden !important;
+            background: #050706 !important;
+        }
+        
+        html.security-error body > *:not(#securityScreen) {
+            display: none !important;
+        }
+
+        #securityScreen {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #050706;
+            color: #73f5a6;
+            font-family:
+                "SFMono-Regular",
+                Consolas,
+                "Liberation Mono",
+                monospace;
+            text-align: center;
+            z-index: 999999;
+        }
+
+        .security-message {
+            width: min(90%, 700px);
+            padding: 30px;
+            border: 1px solid #34443a;
+            background: #080c0a;
+            box-shadow:
+                0 0 30px rgba(115, 245, 166, 0.05);
+        }
+
+        .security-title {
+            color: #73f5a6;
+            font-size: clamp(24px, 5vw, 42px);
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            margin-bottom: 22px;
+        }
+
+        .security-info {
+            color: #b4c1b8;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .security-countdown {
+            color: #73f5a6;
+            font-size: 15px;
+            margin-top: 24px;
+            letter-spacing: 0.04em;
+        }
+
+        #securityCountdown {
+            color: #ffffff;
+            font-size: 20px;
+        }
+    `;
+
+    document.head.appendChild(style);
+    var detectedFirmware = getPS4Firmware();
+
+    if (!isPS4()) {
+        showUnsupportedDevice();
+        return;
+    }
+
+    if (!isFirmwareSupported(detectedFirmware)) {
+        showUnsupportedFirmware(detectedFirmware);
+        return;
+    }
+})();
+</script>
+</body>
+</html>
